@@ -1,7 +1,7 @@
 {
   "name": "@mocoin/api-javascript-client",
   "version": "0.0.0",
-  "description": "Mocoin API client library for JavaScript",
+  "description": "Mocoin API Client Library for Javascript",
   "main": "./lib/index.js",
   "browser": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -46,7 +46,7 @@
     "@types/http-status": "^0.2.30",
     "@types/isomorphic-fetch": "0.0.34",
     "@types/mocha": "^2.2.48",
-    "@types/node": "^8.10.19",
+    "@types/node": "^8.10.22",
     "@types/power-assert": "^1.5.0",
     "@types/qs": "^6.5.1",
     "@types/sinon": "^2.3.7",
@@ -66,7 +66,7 @@
     "power-assert": "^1.5.0",
     "rimraf": "^2.6.2",
     "sinon": "^3.3.0",
-    "snyk": "^1.82.2",
+    "snyk": "^1.89.1",
     "ts-node": "^7.0.0",
     "tslint": "^5.11.0",
     "tslint-microsoft-contrib": "^5.0.3",
@@ -74,7 +74,7 @@
     "watchify": "^3.11.0"
   },
   "dependencies": {
-    "@mocoin/api-abstract-client": "0.0.0-alpha.5",
+    "@mocoin/api-abstract-client": "0.0.0-alpha.7",
     "debug": "^3.1.0",
     "http-status": "^1.2.0",
     "idtoken-verifier": "^1.2.0",

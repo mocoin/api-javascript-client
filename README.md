@@ -1,4 +1,4 @@
-# Mocoin API client library for Javascript
+# Mocoin API Client Library for Javascript
 
 [Javascript][javascript] client library for using Mocoin APIs. Support for authorization and authentication with OAuth 2.0.
 
