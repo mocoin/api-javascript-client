@@ -104,7 +104,7 @@ var IframeHandler = /** @class */ (function () {
 }());
 exports.default = IframeHandler;
 
-},{"debug":124}],4:[function(require,module,exports){
+},{"debug":123}],4:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -448,7 +448,7 @@ var ImplicitGrantClient = /** @class */ (function (_super) {
 }(oAuth2client_1.default));
 exports.ImplicitGrantClient = ImplicitGrantClient;
 
-},{"./error":2,"./oAuth2client":5,"./popupAuthenticationHandler":6,"./silentAuthenticationHandler":8,"./silentLogoutHandler":9,"debug":124,"idtoken-verifier":132,"qs":138}],5:[function(require,module,exports){
+},{"./error":2,"./oAuth2client":5,"./popupAuthenticationHandler":6,"./silentAuthenticationHandler":8,"./silentLogoutHandler":9,"debug":123,"idtoken-verifier":131,"qs":137}],5:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -640,7 +640,7 @@ var OAuth2client = /** @class */ (function () {
 }());
 exports.default = OAuth2client;
 
-},{"@mocoin/api-abstract-client":12,"debug":124,"http-status":126,"isomorphic-fetch":133}],6:[function(require,module,exports){
+},{"@mocoin/api-abstract-client":12,"debug":123,"http-status":125,"isomorphic-fetch":132}],6:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -824,7 +824,7 @@ var PopupHandler = /** @class */ (function () {
 }());
 exports.default = PopupHandler;
 
-},{"debug":124}],8:[function(require,module,exports){
+},{"debug":123}],8:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -1096,9 +1096,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var transporters_1 = require("../transporters");
 /**
- * AuthClient abstract class
  * 抽象認証クライアント
- * @export
  */
 var AuthClient = /** @class */ (function () {
     function AuthClient() {
@@ -1107,9 +1105,7 @@ var AuthClient = /** @class */ (function () {
 }());
 exports.AuthClient = AuthClient;
 /**
- * test auth client
  * テスト認証クライアント
- * @export
  */
 // tslint:disable-next-line:no-single-line-block-comment
 /* istanbul ignore next */
@@ -1248,7 +1244,7 @@ var service;
     })(transaction = service.transaction || (service.transaction = {}));
 })(service = exports.service || (exports.service = {}));
 
-},{"./auth/authClient":11,"./service/person":14,"./service/transaction/buyCoin":15,"./service/transaction/depositCoin":16,"./service/transaction/returnCoin":17,"./service/transaction/transferCoin":18,"./service/transaction/withdrawCoin":19,"./transporters":20,"@mocoin/factory":80}],13:[function(require,module,exports){
+},{"./auth/authClient":11,"./service/person":14,"./service/transaction/buyCoin":15,"./service/transaction/depositCoin":16,"./service/transaction/returnCoin":17,"./service/transaction/transferCoin":18,"./service/transaction/withdrawCoin":19,"./transporters":20,"@mocoin/factory":81}],13:[function(require,module,exports){
 "use strict";
 var __assign = (this && this.__assign) || Object.assign || function(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -1298,7 +1294,6 @@ var qs = require("qs");
 var transporters_1 = require("./transporters");
 /**
  * base service class
- * @export
  */
 var Service = /** @class */ (function () {
     function Service(options) {
@@ -1346,7 +1341,7 @@ var Service = /** @class */ (function () {
 }());
 exports.Service = Service;
 
-},{"./transporters":20,"qs":138}],14:[function(require,module,exports){
+},{"./transporters":20,"qs":137}],14:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -1468,6 +1463,69 @@ var PersonService = /** @class */ (function (_super) {
         });
     };
     /**
+     * ポイント口座開設
+     */
+    PersonService.prototype.openPointAccount = function (params) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.fetch({
+                        uri: "/people/" + params.personId + "/accounts/point",
+                        method: 'POST',
+                        body: {
+                            name: params.name
+                        },
+                        expectedStatusCodes: [http_status_1.CREATED]
+                    })];
+            });
+        });
+    };
+    /**
+     * ポイント口座開解約
+     * 口座の状態を変更するだけで、ユーザーの所有する口座リストから削除はされません。
+     * 解約された口座で取引を進行しようとすると400エラーとなります。
+     */
+    PersonService.prototype.closePointAccount = function (params) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.fetch({
+                        uri: "/people/" + params.personId + "/accounts/point/" + params.accountNumber + "/close",
+                        method: 'PUT',
+                        expectedStatusCodes: [http_status_1.NO_CONTENT]
+                    })];
+            });
+        });
+    };
+    /**
+     * ポイント口座検索
+     */
+    PersonService.prototype.searchPointAccounts = function (params) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.fetch({
+                        uri: "/people/" + params.personId + "/accounts/point",
+                        method: 'GET',
+                        qs: {},
+                        expectedStatusCodes: [http_status_1.OK]
+                    })];
+            });
+        });
+    };
+    /**
+     * ポイント口座取引履歴検索
+     */
+    PersonService.prototype.searchPointAccountMoneyTransferActions = function (params) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.fetch({
+                        uri: "/people/" + params.personId + "/accounts/point/" + params.accountNumber + "/actions/moneyTransfer",
+                        method: 'GET',
+                        qs: {},
+                        expectedStatusCodes: [http_status_1.OK]
+                    })];
+            });
+        });
+    };
+    /**
      * 決済方法追加
      * 外部銀行口座や決済サービスから承認を受け取って、決済方法を追加するイメージ
      */
@@ -1505,7 +1563,7 @@ var PersonService = /** @class */ (function (_super) {
 }(service_1.Service));
 exports.PersonService = PersonService;
 
-},{"../service":13,"http-status":126}],15:[function(require,module,exports){
+},{"../service":13,"http-status":125}],15:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -1593,10 +1651,12 @@ var BuyCoinTransactionService = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.fetch({
-                        uri: "/transactions/buyCoin/" + params.transactionId + "/confirm",
-                        method: 'PUT',
+                        uri: '/transactions/buyCoin/confirm',
+                        method: 'POST',
                         expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {}
+                        body: {
+                            token: params.token
+                        }
                     })];
             });
         });
@@ -1608,10 +1668,12 @@ var BuyCoinTransactionService = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.fetch({
-                        uri: "/transactions/buyCoin/" + params.transactionId + "/cancel",
-                        method: 'PUT',
+                        uri: '/transactions/buyCoin/cancel',
+                        method: 'POST',
                         expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {}
+                        body: {
+                            token: params.token
+                        }
                     })];
             });
         });
@@ -1620,7 +1682,7 @@ var BuyCoinTransactionService = /** @class */ (function (_super) {
 }(service_1.Service));
 exports.BuyCoinTransactionService = BuyCoinTransactionService;
 
-},{"../../service":13,"http-status":126}],16:[function(require,module,exports){
+},{"../../service":13,"http-status":125}],16:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -1707,10 +1769,12 @@ var DepositCoinTransactionService = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.fetch({
-                        uri: "/transactions/depositCoin/" + params.transactionId + "/confirm",
-                        method: 'PUT',
+                        uri: '/transactions/depositCoin/confirm',
+                        method: 'POST',
                         expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {}
+                        body: {
+                            token: params.token
+                        }
                     })];
             });
         });
@@ -1722,10 +1786,12 @@ var DepositCoinTransactionService = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.fetch({
-                        uri: "/transactions/depositCoin/" + params.transactionId + "/cancel",
-                        method: 'PUT',
+                        uri: '/transactions/depositCoin/cancel',
+                        method: 'POST',
                         expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {}
+                        body: {
+                            token: params.token
+                        }
                     })];
             });
         });
@@ -1734,7 +1800,7 @@ var DepositCoinTransactionService = /** @class */ (function (_super) {
 }(service_1.Service));
 exports.DepositCoinTransactionService = DepositCoinTransactionService;
 
-},{"../../service":13,"http-status":126}],17:[function(require,module,exports){
+},{"../../service":13,"http-status":125}],17:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -1822,10 +1888,12 @@ var ReturnCoinTransactionService = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.fetch({
-                        uri: "/transactions/returnCoin/" + params.transactionId + "/confirm",
-                        method: 'PUT',
+                        uri: '/transactions/returnCoin/confirm',
+                        method: 'POST',
                         expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {}
+                        body: {
+                            token: params.token
+                        }
                     })];
             });
         });
@@ -1837,10 +1905,12 @@ var ReturnCoinTransactionService = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.fetch({
-                        uri: "/transactions/returnCoin/" + params.transactionId + "/cancel",
-                        method: 'PUT',
+                        uri: '/transactions/returnCoin/cancel',
+                        method: 'POST',
                         expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {}
+                        body: {
+                            token: params.token
+                        }
                     })];
             });
         });
@@ -1849,7 +1919,7 @@ var ReturnCoinTransactionService = /** @class */ (function (_super) {
 }(service_1.Service));
 exports.ReturnCoinTransactionService = ReturnCoinTransactionService;
 
-},{"../../service":13,"http-status":126}],18:[function(require,module,exports){
+},{"../../service":13,"http-status":125}],18:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -1937,10 +2007,12 @@ var TransferCoinTransactionService = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.fetch({
-                        uri: "/transactions/transferCoin/" + params.transactionId + "/confirm",
-                        method: 'PUT',
+                        uri: '/transactions/transferCoin/confirm',
+                        method: 'POST',
                         expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {}
+                        body: {
+                            token: params.token
+                        }
                     })];
             });
         });
@@ -1952,10 +2024,12 @@ var TransferCoinTransactionService = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.fetch({
-                        uri: "/transactions/transferCoin/" + params.transactionId + "/cancel",
-                        method: 'PUT',
+                        uri: '/transactions/transferCoin/cancel',
+                        method: 'POST',
                         expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {}
+                        body: {
+                            token: params.token
+                        }
                     })];
             });
         });
@@ -1964,7 +2038,7 @@ var TransferCoinTransactionService = /** @class */ (function (_super) {
 }(service_1.Service));
 exports.TransferCoinTransactionService = TransferCoinTransactionService;
 
-},{"../../service":13,"http-status":126}],19:[function(require,module,exports){
+},{"../../service":13,"http-status":125}],19:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2051,10 +2125,12 @@ var WithdrawCoinTransactionService = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.fetch({
-                        uri: "/transactions/withdrawCoin/" + params.transactionId + "/confirm",
-                        method: 'PUT',
+                        uri: '/transactions/withdrawCoin/confirm',
+                        method: 'POST',
                         expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {}
+                        body: {
+                            token: params.token
+                        }
                     })];
             });
         });
@@ -2066,10 +2142,12 @@ var WithdrawCoinTransactionService = /** @class */ (function (_super) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.fetch({
-                        uri: "/transactions/withdrawCoin/" + params.transactionId + "/cancel",
-                        method: 'PUT',
+                        uri: '/transactions/withdrawCoin/cancel',
+                        method: 'POST',
                         expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {}
+                        body: {
+                            token: params.token
+                        }
                     })];
             });
         });
@@ -2078,9 +2156,8 @@ var WithdrawCoinTransactionService = /** @class */ (function (_super) {
 }(service_1.Service));
 exports.WithdrawCoinTransactionService = WithdrawCoinTransactionService;
 
-},{"../../service":13,"http-status":126}],20:[function(require,module,exports){
+},{"../../service":13,"http-status":125}],20:[function(require,module,exports){
 "use strict";
-// tslint:disable:max-classes-per-file
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -2127,9 +2204,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// tslint:disable:max-classes-per-file
 /**
  * transporters
- * @ignore
  */
 var createDebug = require("debug");
 var http_status_1 = require("http-status");
@@ -2138,9 +2215,7 @@ var debug = createDebug('mocoin-api-abstract-client:transporters');
 // tslint:disable-next-line
 // const pkg = require('../package.json');
 /**
- * transporter abstract class
  * トランスポーター抽象クラス
- * @export
  */
 var Transporter = /** @class */ (function () {
     function Transporter() {
@@ -2150,7 +2225,6 @@ var Transporter = /** @class */ (function () {
 exports.Transporter = Transporter;
 /**
  * RequestError
- * @export
  */
 var RequestError = /** @class */ (function (_super) {
     __extends(RequestError, _super);
@@ -2161,9 +2235,7 @@ var RequestError = /** @class */ (function (_super) {
 }(Error));
 exports.RequestError = RequestError;
 /**
- * stub transporter
  * スタブトランポーター
- * @export
  */
 var StubTransporter = /** @class */ (function () {
     function StubTransporter(body) {
@@ -2182,7 +2254,6 @@ var StubTransporter = /** @class */ (function () {
 exports.StubTransporter = StubTransporter;
 /**
  * DefaultTransporter
- * @export
  */
 var DefaultTransporter = /** @class */ (function () {
     function DefaultTransporter(expectedStatusCodes) {
@@ -2344,7 +2415,30 @@ exports.DefaultTransporter = DefaultTransporter;
 //     }
 // }
 
-},{"debug":124,"http-status":126,"isomorphic-fetch":133}],21:[function(require,module,exports){
+},{"debug":123,"http-status":125,"isomorphic-fetch":132}],21:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * 口座タイプ
+ */
+var AccountType;
+(function (AccountType) {
+    /**
+     * コイン口座
+     */
+    AccountType["Coin"] = "Coin";
+    /**
+     * ポイント口座
+     */
+    AccountType["Point"] = "Point";
+    /**
+     * デフォルト口座
+     */
+    AccountType["Default"] = "Default";
+})(AccountType || (AccountType = {}));
+exports.default = AccountType;
+
+},{}],22:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -2360,7 +2454,7 @@ var ActionStatusType;
 })(ActionStatusType || (ActionStatusType = {}));
 exports.default = ActionStatusType;
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -2385,11 +2479,11 @@ var ActionType;
 })(ActionType || (ActionType = {}));
 exports.default = ActionType;
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -2401,11 +2495,11 @@ var AuthorizeDepositActionObjectType;
 })(AuthorizeDepositActionObjectType || (AuthorizeDepositActionObjectType = {}));
 exports.default = AuthorizeDepositActionObjectType;
 
-},{}],25:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],26:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],27:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],27:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],28:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -2417,9 +2511,9 @@ var AuthorizeTransferActionObjectType;
 })(AuthorizeTransferActionObjectType || (AuthorizeTransferActionObjectType = {}));
 exports.default = AuthorizeTransferActionObjectType;
 
-},{}],28:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],29:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],30:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -2431,11 +2525,11 @@ var AuthorizeWithdrawActionObjectType;
 })(AuthorizeWithdrawActionObjectType || (AuthorizeWithdrawActionObjectType = {}));
 exports.default = AuthorizeWithdrawActionObjectType;
 
-},{}],30:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],31:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],32:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],32:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],33:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var LocationType;
@@ -2445,11 +2539,11 @@ var LocationType;
     LocationType["CoinAccount"] = "CoinAccount";
 })(LocationType = exports.LocationType || (exports.LocationType = {}));
 
-},{}],33:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],34:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],35:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],35:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],36:[function(require,module,exports){
 "use strict";
 /**
  * アプリケーションクライアントユーザーファクトリー
@@ -2457,7 +2551,7 @@ arguments[4][23][0].apply(exports,arguments)
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 "use strict";
 /**
  * 作品タイプ
@@ -2470,9 +2564,9 @@ var CreativeWorkType;
 })(CreativeWorkType || (CreativeWorkType = {}));
 exports.default = CreativeWorkType;
 
-},{}],37:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],38:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],39:[function(require,module,exports){
 "use strict";
 /**
  * エラーコード
@@ -2492,7 +2586,7 @@ var ErrorCode;
 })(ErrorCode || (ErrorCode = {}));
 exports.default = ErrorCode;
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2532,7 +2626,7 @@ var AlreadyInUseError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = AlreadyInUseError;
 
-},{"../errorCode":38,"./mocoin":43,"setprototypeof":142}],40:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],41:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2571,7 +2665,7 @@ var ArgumentError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = ArgumentError;
 
-},{"../errorCode":38,"./mocoin":43,"setprototypeof":142}],41:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],42:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2610,7 +2704,7 @@ var ArgumentNullError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = ArgumentNullError;
 
-},{"../errorCode":38,"./mocoin":43,"setprototypeof":142}],42:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],43:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2648,7 +2742,7 @@ var ForbiddenError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = ForbiddenError;
 
-},{"../errorCode":38,"./mocoin":43,"setprototypeof":142}],43:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],44:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2679,7 +2773,7 @@ var MocoinError = /** @class */ (function (_super) {
 }(Error));
 exports.MocoinError = MocoinError;
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2718,7 +2812,7 @@ var NotFoundError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = NotFoundError;
 
-},{"../errorCode":38,"./mocoin":43,"setprototypeof":142}],45:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],46:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2756,7 +2850,7 @@ var NotImplementedError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = NotImplementedError;
 
-},{"../errorCode":38,"./mocoin":43,"setprototypeof":142}],46:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],47:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2794,7 +2888,7 @@ var RateLimitExceededError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = RateLimitExceededError;
 
-},{"../errorCode":38,"./mocoin":43,"setprototypeof":142}],47:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],48:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2832,7 +2926,7 @@ var ServiceUnavailableError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = ServiceUnavailableError;
 
-},{"../errorCode":38,"./mocoin":43,"setprototypeof":142}],48:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],49:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2870,7 +2964,7 @@ var UnauthorizedError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = UnauthorizedError;
 
-},{"../errorCode":38,"./mocoin":43,"setprototypeof":142}],49:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],50:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -2897,9 +2991,9 @@ exports.ServiceUnavailable = serviceUnavailable_1.default;
 var unauthorized_1 = require("./error/unauthorized");
 exports.Unauthorized = unauthorized_1.default;
 
-},{"./error/alreadyInUse":39,"./error/argument":40,"./error/argumentNull":41,"./error/forbidden":42,"./error/mocoin":43,"./error/notFound":44,"./error/notImplemented":45,"./error/rateLimitExceeded":46,"./error/serviceUnavailable":47,"./error/unauthorized":48}],50:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],51:[function(require,module,exports){
+},{"./error/alreadyInUse":40,"./error/argument":41,"./error/argumentNull":42,"./error/forbidden":43,"./error/mocoin":44,"./error/notFound":45,"./error/notImplemented":46,"./error/rateLimitExceeded":47,"./error/serviceUnavailable":48,"./error/unauthorized":49}],51:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],52:[function(require,module,exports){
 "use strict";
 /**
  * 注文ステータス
@@ -2918,7 +3012,7 @@ var OrderStatus;
 })(OrderStatus || (OrderStatus = {}));
 exports.default = OrderStatus;
 
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 "use strict";
 /**
  * 企業識別子
@@ -2930,7 +3024,7 @@ var CorporationOrganizationIdentifier;
 })(CorporationOrganizationIdentifier || (CorporationOrganizationIdentifier = {}));
 exports.default = CorporationOrganizationIdentifier;
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 "use strict";
 /**
  * 組織タイプ
@@ -2943,9 +3037,9 @@ var OrganizationType;
 })(OrganizationType || (OrganizationType = {}));
 exports.default = OrganizationType;
 
-},{}],54:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],55:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],56:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -2954,16 +3048,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var AccountGoodType;
 (function (AccountGoodType) {
     /**
-     * コイン口座
+     * 口座
      */
-    AccountGoodType["CoinAccount"] = "CoinAccount";
-    /**
-     * ポイント口座
-     */
-    AccountGoodType["PointAccount"] = "PointAccount";
+    AccountGoodType["Account"] = "Account";
 })(AccountGoodType = exports.AccountGoodType || (exports.AccountGoodType = {}));
 
-},{}],56:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -2976,11 +3066,11 @@ var PaymentMethodType;
 })(PaymentMethodType || (PaymentMethodType = {}));
 exports.default = PaymentMethodType;
 
-},{}],57:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],58:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],59:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],59:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],60:[function(require,module,exports){
 "use strict";
 /**
  * 人物タイプ
@@ -2992,7 +3082,7 @@ var PersonType;
 })(PersonType || (PersonType = {}));
 exports.default = PersonType;
 
-},{}],60:[function(require,module,exports){
+},{}],61:[function(require,module,exports){
 "use strict";
 /**
  * 場所タイプ
@@ -3007,7 +3097,7 @@ var PlaceType;
 })(PlaceType || (PlaceType = {}));
 exports.default = PlaceType;
 
-},{}],61:[function(require,module,exports){
+},{}],62:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3021,7 +3111,7 @@ var PriceCurrency;
 })(PriceCurrency || (PriceCurrency = {}));
 exports.default = PriceCurrency;
 
-},{}],62:[function(require,module,exports){
+},{}],63:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3035,11 +3125,11 @@ var Award;
     Award["PecorinoPayment"] = "PecorinoPayment";
 })(Award = exports.Award || (exports.Award = {}));
 
-},{}],63:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],64:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],65:[function(require,module,exports){
+},{}],64:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],65:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],66:[function(require,module,exports){
 "use strict";
 /**
  * task name
@@ -3063,7 +3153,7 @@ var TaskName;
 })(TaskName || (TaskName = {}));
 exports.default = TaskName;
 
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 "use strict";
 /**
  * タスクステータス
@@ -3090,13 +3180,13 @@ var TaskStatus;
 })(TaskStatus || (TaskStatus = {}));
 exports.default = TaskStatus;
 
-},{}],67:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],68:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],69:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],70:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],69:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],70:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],71:[function(require,module,exports){
 "use strict";
 /**
  * 取引ステータス
@@ -3111,7 +3201,7 @@ var TransactionStatusType;
 })(TransactionStatusType || (TransactionStatusType = {}));
 exports.default = TransactionStatusType;
 
-},{}],71:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 "use strict";
 /**
  * 取引タスクエクスポートステータス
@@ -3134,7 +3224,7 @@ var TransactionTasksExportationStatus;
 })(TransactionTasksExportationStatus || (TransactionTasksExportationStatus = {}));
 exports.default = TransactionTasksExportationStatus;
 
-},{}],72:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3165,17 +3255,17 @@ var TransactionType;
 })(TransactionType || (TransactionType = {}));
 exports.default = TransactionType;
 
-},{}],73:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],74:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],75:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],76:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],77:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],78:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],75:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],76:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],77:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],78:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],79:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3189,21 +3279,22 @@ var UnitCode;
     UnitCode["Sec"] = "SEC";
 })(UnitCode = exports.UnitCode || (exports.UnitCode = {}));
 
-},{}],79:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 "use strict";
 /**
  * URLファクトリー
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 
-},{}],80:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // tslint:disable:no-shadowed-variable
 /**
  * index module
  */
-var pecorinoFactory = require("@motionpicture/pecorino-factory");
+var pecorinoFactory = require("@pecorino/factory");
+var accountType_1 = require("./factory/accountType");
 var AuthorizeDepositCoinAccountActionFactory = require("./factory/action/authorize/deposit/account/coin");
 var objectType_1 = require("./factory/action/authorize/deposit/objectType");
 var AuthorizeDepositBankAccountPaymentActionFactory = require("./factory/action/authorize/deposit/paymentMethod/bankAccount");
@@ -3256,6 +3347,7 @@ var errors = require("./factory/errors");
 exports.pecorino = pecorinoFactory;
 exports.errors = errors;
 exports.errorCode = errorCode_1.default;
+exports.accountType = accountType_1.default;
 exports.actionStatusType = actionStatusType_1.default;
 exports.actionType = actionType_1.default;
 var action;
@@ -3376,21 +3468,21 @@ exports.transactionType = transactionType_1.default;
 exports.unitCode = unitCode_1.UnitCode;
 exports.url = URLFactory;
 
-},{"./factory/action/authorize/deposit/account/coin":23,"./factory/action/authorize/deposit/objectType":24,"./factory/action/authorize/deposit/paymentMethod/bankAccount":25,"./factory/action/authorize/transfer/account/coin":26,"./factory/action/authorize/transfer/objectType":27,"./factory/action/authorize/withdraw/account/coin":28,"./factory/action/authorize/withdraw/objectType":29,"./factory/action/authorize/withdraw/paymentMethod/bankAccount":30,"./factory/action/trade/pay":31,"./factory/action/transfer/moneyTransfer":32,"./factory/action/transfer/send/message/email":33,"./factory/action/transfer/send/order":34,"./factory/actionStatusType":21,"./factory/actionType":22,"./factory/clientUser":35,"./factory/creativeWork/message/email":37,"./factory/creativeWorkType":36,"./factory/errorCode":38,"./factory/errors":49,"./factory/order":50,"./factory/orderStatus":51,"./factory/organization/corporation":54,"./factory/organizationIdentifier/corporation":52,"./factory/organizationType":53,"./factory/ownershipInfo":55,"./factory/paymentMethod/paymentCard/creditCard":57,"./factory/paymentMethodType":56,"./factory/person":58,"./factory/personType":59,"./factory/placeType":60,"./factory/priceCurrency":61,"./factory/programMembership":62,"./factory/quantitativeValue":63,"./factory/task/cancelMoneyTransfer":67,"./factory/task/moneyTransfer":68,"./factory/task/sendEmailMessage":69,"./factory/taskExecutionResult":64,"./factory/taskName":65,"./factory/taskStatus":66,"./factory/transaction/buyCoin":73,"./factory/transaction/depositCoin":74,"./factory/transaction/returnCoin":75,"./factory/transaction/transferCoin":76,"./factory/transaction/withdrawCoin":77,"./factory/transactionStatusType":70,"./factory/transactionTasksExportationStatus":71,"./factory/transactionType":72,"./factory/unitCode":78,"./factory/url":79,"@motionpicture/pecorino-factory":117}],81:[function(require,module,exports){
+},{"./factory/accountType":21,"./factory/action/authorize/deposit/account/coin":24,"./factory/action/authorize/deposit/objectType":25,"./factory/action/authorize/deposit/paymentMethod/bankAccount":26,"./factory/action/authorize/transfer/account/coin":27,"./factory/action/authorize/transfer/objectType":28,"./factory/action/authorize/withdraw/account/coin":29,"./factory/action/authorize/withdraw/objectType":30,"./factory/action/authorize/withdraw/paymentMethod/bankAccount":31,"./factory/action/trade/pay":32,"./factory/action/transfer/moneyTransfer":33,"./factory/action/transfer/send/message/email":34,"./factory/action/transfer/send/order":35,"./factory/actionStatusType":22,"./factory/actionType":23,"./factory/clientUser":36,"./factory/creativeWork/message/email":38,"./factory/creativeWorkType":37,"./factory/errorCode":39,"./factory/errors":50,"./factory/order":51,"./factory/orderStatus":52,"./factory/organization/corporation":55,"./factory/organizationIdentifier/corporation":53,"./factory/organizationType":54,"./factory/ownershipInfo":56,"./factory/paymentMethod/paymentCard/creditCard":58,"./factory/paymentMethodType":57,"./factory/person":59,"./factory/personType":60,"./factory/placeType":61,"./factory/priceCurrency":62,"./factory/programMembership":63,"./factory/quantitativeValue":64,"./factory/task/cancelMoneyTransfer":68,"./factory/task/moneyTransfer":69,"./factory/task/sendEmailMessage":70,"./factory/taskExecutionResult":65,"./factory/taskName":66,"./factory/taskStatus":67,"./factory/transaction/buyCoin":74,"./factory/transaction/depositCoin":75,"./factory/transaction/returnCoin":76,"./factory/transaction/transferCoin":77,"./factory/transaction/withdrawCoin":78,"./factory/transactionStatusType":71,"./factory/transactionTasksExportationStatus":72,"./factory/transactionType":73,"./factory/unitCode":79,"./factory/url":80,"@pecorino/factory":116}],82:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * 口座タイプ
  */
-var AccountType;
-(function (AccountType) {
+var TypeOf;
+(function (TypeOf) {
     /**
      * 普通口座タイプ
      */
-    AccountType["Account"] = "Account";
-})(AccountType = exports.AccountType || (exports.AccountType = {}));
+    TypeOf["Account"] = "Account";
+})(TypeOf = exports.TypeOf || (exports.TypeOf = {}));
 
-},{}],82:[function(require,module,exports){
+},{}],83:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3409,9 +3501,9 @@ var AccountStatusType;
 })(AccountStatusType || (AccountStatusType = {}));
 exports.default = AccountStatusType;
 
-},{}],83:[function(require,module,exports){
-arguments[4][21][0].apply(exports,arguments)
-},{"dup":21}],84:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
+arguments[4][22][0].apply(exports,arguments)
+},{"dup":22}],85:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3432,13 +3524,13 @@ var ActionType;
 })(ActionType || (ActionType = {}));
 exports.default = ActionType;
 
-},{}],85:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],86:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],87:[function(require,module,exports){
-arguments[4][35][0].apply(exports,arguments)
-},{"dup":35}],88:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],87:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],88:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],89:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3450,9 +3542,9 @@ var CreativeWorkType;
 })(CreativeWorkType || (CreativeWorkType = {}));
 exports.default = CreativeWorkType;
 
-},{}],89:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],90:[function(require,module,exports){
+},{}],90:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],91:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3472,7 +3564,7 @@ var ErrorCode;
 })(ErrorCode || (ErrorCode = {}));
 exports.default = ErrorCode;
 
-},{}],91:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -3511,7 +3603,7 @@ var AlreadyInUseError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = AlreadyInUseError;
 
-},{"../errorCode":90,"./pecorino":97,"setprototypeof":142}],92:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],93:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -3549,7 +3641,7 @@ var ArgumentError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = ArgumentError;
 
-},{"../errorCode":90,"./pecorino":97,"setprototypeof":142}],93:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],94:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -3587,7 +3679,7 @@ var ArgumentNullError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = ArgumentNullError;
 
-},{"../errorCode":90,"./pecorino":97,"setprototypeof":142}],94:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],95:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -3624,7 +3716,7 @@ var ForbiddenError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = ForbiddenError;
 
-},{"../errorCode":90,"./pecorino":97,"setprototypeof":142}],95:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],96:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -3662,7 +3754,7 @@ var NotFoundError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = NotFoundError;
 
-},{"../errorCode":90,"./pecorino":97,"setprototypeof":142}],96:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],97:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -3699,7 +3791,7 @@ var NotImplementedError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = NotImplementedError;
 
-},{"../errorCode":90,"./pecorino":97,"setprototypeof":142}],97:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],98:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -3730,7 +3822,7 @@ var PecorinoError = /** @class */ (function (_super) {
 }(Error));
 exports.PecorinoError = PecorinoError;
 
-},{}],98:[function(require,module,exports){
+},{}],99:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -3767,7 +3859,7 @@ var RateLimitExceededError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = RateLimitExceededError;
 
-},{"../errorCode":90,"./pecorino":97,"setprototypeof":142}],99:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],100:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -3804,7 +3896,7 @@ var ServiceUnavailableError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = ServiceUnavailableError;
 
-},{"../errorCode":90,"./pecorino":97,"setprototypeof":142}],100:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],101:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -3841,7 +3933,7 @@ var UnauthorizedError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = UnauthorizedError;
 
-},{"../errorCode":90,"./pecorino":97,"setprototypeof":142}],101:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],102:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3868,35 +3960,11 @@ exports.ServiceUnavailable = serviceUnavailable_1.default;
 var unauthorized_1 = require("./error/unauthorized");
 exports.Unauthorized = unauthorized_1.default;
 
-},{"./error/alreadyInUse":91,"./error/argument":92,"./error/argumentNull":93,"./error/forbidden":94,"./error/notFound":95,"./error/notImplemented":96,"./error/pecorino":97,"./error/rateLimitExceeded":98,"./error/serviceUnavailable":99,"./error/unauthorized":100}],102:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * 組織タイプ
- */
-var OrganizationType;
-(function (OrganizationType) {
-    OrganizationType["Corporation"] = "Corporation";
-})(OrganizationType || (OrganizationType = {}));
-exports.default = OrganizationType;
-
-},{}],103:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * 人物タイプ
- */
-var PersonType;
-(function (PersonType) {
-    PersonType["Person"] = "Person";
-})(PersonType || (PersonType = {}));
-exports.default = PersonType;
-
-},{}],104:[function(require,module,exports){
-arguments[4][61][0].apply(exports,arguments)
-},{"dup":61}],105:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],106:[function(require,module,exports){
+},{"./error/alreadyInUse":92,"./error/argument":93,"./error/argumentNull":94,"./error/forbidden":95,"./error/notFound":96,"./error/notImplemented":97,"./error/pecorino":98,"./error/rateLimitExceeded":99,"./error/serviceUnavailable":100,"./error/unauthorized":101}],103:[function(require,module,exports){
+arguments[4][62][0].apply(exports,arguments)
+},{"dup":62}],104:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],105:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3915,7 +3983,7 @@ var TaskName;
 })(TaskName || (TaskName = {}));
 exports.default = TaskName;
 
-},{}],107:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3942,11 +4010,11 @@ var TaskStatus;
 })(TaskStatus || (TaskStatus = {}));
 exports.default = TaskStatus;
 
-},{}],108:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],109:[function(require,module,exports){
-arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],110:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],108:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],109:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3961,7 +4029,7 @@ var TransactionStatusType;
 })(TransactionStatusType || (TransactionStatusType = {}));
 exports.default = TransactionStatusType;
 
-},{}],111:[function(require,module,exports){
+},{}],110:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3984,7 +4052,7 @@ var TransactionTasksExportationStatus;
 })(TransactionTasksExportationStatus || (TransactionTasksExportationStatus = {}));
 exports.default = TransactionTasksExportationStatus;
 
-},{}],112:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -4007,35 +4075,19 @@ var TransactionType;
 })(TransactionType || (TransactionType = {}));
 exports.default = TransactionType;
 
-},{}],113:[function(require,module,exports){
-"use strict";
-/**
- * 入金取引ファクトリー
- */
-Object.defineProperty(exports, "__esModule", { value: true });
-
-},{}],114:[function(require,module,exports){
-"use strict";
-/**
- * 転送取引ファクトリー
- */
-Object.defineProperty(exports, "__esModule", { value: true });
-
-},{}],115:[function(require,module,exports){
-"use strict";
-/**
- * 支払取引ファクトリー
- */
-Object.defineProperty(exports, "__esModule", { value: true });
-
-},{}],116:[function(require,module,exports){
-arguments[4][79][0].apply(exports,arguments)
-},{"dup":79}],117:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],113:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],114:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],115:[function(require,module,exports){
+arguments[4][80][0].apply(exports,arguments)
+},{"dup":80}],116:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * pecorino-factory
- * @module
+ * factory
  */
 var AccountFactory = require("./factory/account");
 var accountStatusType_1 = require("./factory/accountStatusType");
@@ -4046,8 +4098,6 @@ var actionType_1 = require("./factory/actionType");
 var ClientUserFactory = require("./factory/clientUser");
 var EmailMessageFactory = require("./factory/creativeWork/message/email");
 var creativeWorkType_1 = require("./factory/creativeWorkType");
-var organizationType_1 = require("./factory/organizationType");
-var personType_1 = require("./factory/personType");
 var priceCurrency_1 = require("./factory/priceCurrency");
 var CancelMoneyTransferTaskFactory = require("./factory/task/cancelMoneyTransfer");
 var MoneyTransferTaskFactory = require("./factory/task/moneyTransfer");
@@ -4092,8 +4142,6 @@ var creativeWork;
     })(message = creativeWork.message || (creativeWork.message = {}));
 })(creativeWork = exports.creativeWork || (exports.creativeWork = {}));
 exports.creativeWorkType = creativeWorkType_1.default;
-exports.organizationType = organizationType_1.default;
-exports.personType = personType_1.default;
 exports.priceCurrency = priceCurrency_1.default;
 var task;
 (function (task) {
@@ -4114,7 +4162,7 @@ exports.transactionTasksExportationStatus = transactionTasksExportationStatus_1.
 exports.transactionType = transactionType_1.default;
 exports.url = URLFactory;
 
-},{"./factory/account":81,"./factory/accountStatusType":82,"./factory/action/transfer/moneyTransfer":85,"./factory/action/transfer/send/message/email":86,"./factory/actionStatusType":83,"./factory/actionType":84,"./factory/clientUser":87,"./factory/creativeWork/message/email":89,"./factory/creativeWorkType":88,"./factory/errorCode":90,"./factory/errors":101,"./factory/organizationType":102,"./factory/personType":103,"./factory/priceCurrency":104,"./factory/task/cancelMoneyTransfer":108,"./factory/task/moneyTransfer":109,"./factory/taskExecutionResult":105,"./factory/taskName":106,"./factory/taskStatus":107,"./factory/transaction/deposit":113,"./factory/transaction/transfer":114,"./factory/transaction/withdraw":115,"./factory/transactionStatusType":110,"./factory/transactionTasksExportationStatus":111,"./factory/transactionType":112,"./factory/url":116}],118:[function(require,module,exports){
+},{"./factory/account":82,"./factory/accountStatusType":83,"./factory/action/transfer/moneyTransfer":86,"./factory/action/transfer/send/message/email":87,"./factory/actionStatusType":84,"./factory/actionType":85,"./factory/clientUser":88,"./factory/creativeWork/message/email":90,"./factory/creativeWorkType":89,"./factory/errorCode":91,"./factory/errors":102,"./factory/priceCurrency":103,"./factory/task/cancelMoneyTransfer":107,"./factory/task/moneyTransfer":108,"./factory/taskExecutionResult":104,"./factory/taskName":105,"./factory/taskStatus":106,"./factory/transaction/deposit":112,"./factory/transaction/transfer":113,"./factory/transaction/withdraw":114,"./factory/transactionStatusType":109,"./factory/transactionTasksExportationStatus":110,"./factory/transactionType":111,"./factory/url":115}],117:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -4267,7 +4315,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],119:[function(require,module,exports){
+},{}],118:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -4432,7 +4480,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],120:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 ;(function (root, factory) {
 	if (typeof exports === "object") {
 		// CommonJS
@@ -5193,7 +5241,7 @@ Emitter.prototype.hasListeners = function(event){
 	return CryptoJS;
 
 }));
-},{}],121:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 ;(function (root, factory) {
 	if (typeof exports === "object") {
 		// CommonJS
@@ -5329,7 +5377,7 @@ Emitter.prototype.hasListeners = function(event){
 	return CryptoJS.enc.Base64;
 
 }));
-},{"./core":120}],122:[function(require,module,exports){
+},{"./core":119}],121:[function(require,module,exports){
 ;(function (root, factory) {
 	if (typeof exports === "object") {
 		// CommonJS
@@ -5348,7 +5396,7 @@ Emitter.prototype.hasListeners = function(event){
 	return CryptoJS.enc.Hex;
 
 }));
-},{"./core":120}],123:[function(require,module,exports){
+},{"./core":119}],122:[function(require,module,exports){
 ;(function (root, factory) {
 	if (typeof exports === "object") {
 		// CommonJS
@@ -5548,7 +5596,7 @@ Emitter.prototype.hasListeners = function(event){
 	return CryptoJS.SHA256;
 
 }));
-},{"./core":120}],124:[function(require,module,exports){
+},{"./core":119}],123:[function(require,module,exports){
 (function (process){
 /**
  * This is the web browser implementation of `debug()`.
@@ -5747,7 +5795,7 @@ function localstorage() {
 }
 
 }).call(this,require('_process'))
-},{"./debug":125,"_process":136}],125:[function(require,module,exports){
+},{"./debug":124,"_process":135}],124:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -5974,7 +6022,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":135}],126:[function(require,module,exports){
+},{"ms":134}],125:[function(require,module,exports){
 // Generated by CoffeeScript 2.3.0
 // # node-http-status
 
@@ -6454,7 +6502,7 @@ module.exports = {
   }
 };
 
-},{}],127:[function(require,module,exports){
+},{}],126:[function(require,module,exports){
 var base64 = require('base64-js');
 
 function padding(str) {
@@ -6540,7 +6588,7 @@ module.exports = {
   base64ToBase64Url: base64ToBase64Url
 };
 
-},{"base64-js":118}],128:[function(require,module,exports){
+},{"base64-js":117}],127:[function(require,module,exports){
 function DummyCache() {}
 
 DummyCache.prototype.get = function () {
@@ -6556,7 +6604,7 @@ DummyCache.prototype.set = function () {
 
 module.exports = DummyCache;
 
-},{}],129:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 function ConfigurationError(message) {
   this.name = 'ConfigurationError';
   this.message = (message || '');
@@ -6574,7 +6622,7 @@ module.exports = {
   TokenValidationError: TokenValidationError
 };
 
-},{}],130:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 var urljoin = require('url-join');
 var base64 = require('./base64');
 var request = require('superagent');
@@ -6620,7 +6668,7 @@ module.exports = {
   getJWKS: getJWKS
 };
 
-},{"./base64":127,"superagent":144,"url-join":149}],131:[function(require,module,exports){
+},{"./base64":126,"superagent":143,"url-join":148}],130:[function(require,module,exports){
 /*
 Based on the work of Tom Wu
 http://www-cs-students.stanford.edu/~tjw/jsbn/
@@ -6699,7 +6747,7 @@ RSAVerifier.prototype.verify = function (msg, encsig) {
 
 module.exports = RSAVerifier;
 
-},{"crypto-js/sha256":123,"jsbn":134}],132:[function(require,module,exports){
+},{"crypto-js/sha256":122,"jsbn":133}],131:[function(require,module,exports){
 var sha256 = require('crypto-js/sha256');
 var cryptoBase64 = require('crypto-js/enc-base64');
 var cryptoHex = require('crypto-js/enc-hex');
@@ -6992,7 +7040,7 @@ IdTokenVerifier.prototype.validateAccessToken = function (accessToken, alg, atHa
 
 module.exports = IdTokenVerifier;
 
-},{"./helpers/base64":127,"./helpers/dummy-cache":128,"./helpers/error":129,"./helpers/jwks":130,"./helpers/rsa-verifier":131,"crypto-js/enc-base64":121,"crypto-js/enc-hex":122,"crypto-js/sha256":123}],133:[function(require,module,exports){
+},{"./helpers/base64":126,"./helpers/dummy-cache":127,"./helpers/error":128,"./helpers/jwks":129,"./helpers/rsa-verifier":130,"crypto-js/enc-base64":120,"crypto-js/enc-hex":121,"crypto-js/sha256":122}],132:[function(require,module,exports){
 // the whatwg-fetch polyfill installs the fetch() function
 // on the global object (window or self)
 //
@@ -7000,7 +7048,7 @@ module.exports = IdTokenVerifier;
 require('whatwg-fetch');
 module.exports = self.fetch.bind(self);
 
-},{"whatwg-fetch":150}],134:[function(require,module,exports){
+},{"whatwg-fetch":149}],133:[function(require,module,exports){
 (function(){
 
     // Copyright (c) 2005  Tom Wu
@@ -8359,7 +8407,7 @@ module.exports = self.fetch.bind(self);
 
 }).call(this);
 
-},{}],135:[function(require,module,exports){
+},{}],134:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -8513,7 +8561,7 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
-},{}],136:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -8699,7 +8747,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],137:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 'use strict';
 
 var replace = String.prototype.replace;
@@ -8719,7 +8767,7 @@ module.exports = {
     RFC3986: 'RFC3986'
 };
 
-},{}],138:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 'use strict';
 
 var stringify = require('./stringify');
@@ -8732,7 +8780,7 @@ module.exports = {
     stringify: stringify
 };
 
-},{"./formats":137,"./parse":139,"./stringify":140}],139:[function(require,module,exports){
+},{"./formats":136,"./parse":138,"./stringify":139}],138:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -8908,7 +8956,7 @@ module.exports = function (str, opts) {
     return utils.compact(obj);
 };
 
-},{"./utils":141}],140:[function(require,module,exports){
+},{"./utils":140}],139:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -9120,7 +9168,7 @@ module.exports = function (object, opts) {
     return joined.length > 0 ? prefix + joined : '';
 };
 
-},{"./formats":137,"./utils":141}],141:[function(require,module,exports){
+},{"./formats":136,"./utils":140}],140:[function(require,module,exports){
 'use strict';
 
 var has = Object.prototype.hasOwnProperty;
@@ -9335,7 +9383,7 @@ module.exports = {
     merge: merge
 };
 
-},{}],142:[function(require,module,exports){
+},{}],141:[function(require,module,exports){
 module.exports = Object.setPrototypeOf || ({__proto__:[]} instanceof Array ? setProtoOf : mixinProperties);
 
 function setProtoOf(obj, proto) {
@@ -9352,7 +9400,7 @@ function mixinProperties(obj, proto) {
 	return obj;
 }
 
-},{}],143:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 function Agent() {
   this._defaults = [];
 }
@@ -9374,7 +9422,7 @@ Agent.prototype._setDefaults = function(req) {
 
 module.exports = Agent;
 
-},{}],144:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 /**
  * Root reference for iframes.
  */
@@ -10296,7 +10344,7 @@ request.put = function(url, data, fn) {
   return req;
 };
 
-},{"./agent-base":143,"./is-object":145,"./request-base":146,"./response-base":147,"component-emitter":119}],145:[function(require,module,exports){
+},{"./agent-base":142,"./is-object":144,"./request-base":145,"./response-base":146,"component-emitter":118}],144:[function(require,module,exports){
 'use strict';
 
 /**
@@ -10313,7 +10361,7 @@ function isObject(obj) {
 
 module.exports = isObject;
 
-},{}],146:[function(require,module,exports){
+},{}],145:[function(require,module,exports){
 'use strict';
 
 /**
@@ -11009,7 +11057,7 @@ RequestBase.prototype._setTimeouts = function() {
   }
 };
 
-},{"./is-object":145}],147:[function(require,module,exports){
+},{"./is-object":144}],146:[function(require,module,exports){
 'use strict';
 
 /**
@@ -11147,7 +11195,7 @@ ResponseBase.prototype._setStatusProperties = function(status){
     this.unprocessableEntity = 422 == status;
 };
 
-},{"./utils":148}],148:[function(require,module,exports){
+},{"./utils":147}],147:[function(require,module,exports){
 'use strict';
 
 /**
@@ -11220,7 +11268,7 @@ exports.cleanHeader = function(header, changesOrigin){
   return header;
 };
 
-},{}],149:[function(require,module,exports){
+},{}],148:[function(require,module,exports){
 (function (name, context, definition) {
   if (typeof module !== 'undefined' && module.exports) module.exports = definition();
   else if (typeof define === 'function' && define.amd) define(definition);
@@ -11260,7 +11308,7 @@ exports.cleanHeader = function(header, changesOrigin){
 
 });
 
-},{}],150:[function(require,module,exports){
+},{}],149:[function(require,module,exports){
 (function(self) {
   'use strict';
 
