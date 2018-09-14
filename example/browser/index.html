@@ -58,13 +58,14 @@
         // http://docs.aws.amazon.com/ja_jp/cognito/latest/developerguide/cognito-user-pools-define-resource-servers.html
         // https://aws.amazon.com/blogs/mobile/integrating-amazon-cognito-user-pools-with-api-gateway/
 
-        var DOMAIN = 'xxxx';
-        var CLIENT_ID = 'xxxx'; // given by a token provider
+        var DOMAIN = 'xxxxx';
+        var CLIENT_ID = 'xxxxx'; // given by a token provider
         var CALLBACK_URL = 'http://localhost:8080/signIn.html'; // an application should prepare it
         var LOGOUT_URL = 'http://localhost:8080/signOut.html'; // an application should prepare it
-        var ISSUER = 'xxxx';
-        var API_ENDPOINT = 'xxxx';
-        var RESOURCE_SERVER_IDENFIER = 'xxxx';
+        var ISSUER = 'xxxxx';
+        var API_ENDPOINT = 'xxxxx';
+        var RESOURCE_SERVER_IDENFIER = 'xxxxx';
+        var APIM_SUBSCRIPTION_KEY = 'xxxxx';
 
         var credentials = null;
 
@@ -180,9 +181,16 @@
                 endpoint: API_ENDPOINT,
                 auth: auth
             });
-            personService.searchCoinAccounts({
-                personId: 'me'
-            }).then(function (accounts) {
+            personService.searchCoinAccounts(
+                {
+                    personId: 'me'
+                },
+                {
+                    headers: {
+                        'Ocp-Apim-Subscription-Key': APIM_SUBSCRIPTION_KEY
+                    }
+                }
+            ).then(function (accounts) {
                 console.log('accounts:', accounts);
                 document.getElementById('results').innerText = format(accounts);
             }).catch(function (err) {
@@ -196,23 +204,30 @@
                 endpoint: API_ENDPOINT,
                 auth: auth
             });
-            withdrawCoinervice.start({
-                expires: new Date(),
-                agent: {
-                    typeOf: mocoin.factory.personType.Person,
-                    name: 'name'
+            withdrawCoinervice.start(
+                {
+                    expires: new Date(),
+                    agent: {
+                        typeOf: mocoin.factory.personType.Person,
+                        name: 'name'
+                    },
+                    recipient: {
+                        typeOf: mocoin.factory.personType.Person,
+                        name: 'name'
+                    },
+                    amount: 1,
+                    notes: 'test from sample',
+                    fromLocation: {
+                        typeOf: mocoin.factory.ownershipInfo.AccountGoodType.CoinAccount,
+                        accountNumber: '####'
+                    }
                 },
-                recipient: {
-                    typeOf: mocoin.factory.personType.Person,
-                    name: 'name'
-                },
-                amount: 1,
-                notes: 'test from sample',
-                fromLocation: {
-                    typeOf: mocoin.factory.ownershipInfo.AccountGoodType.CoinAccount,
-                    accountNumber: '####'
+                {
+                    headers: {
+                        'Ocp-Apim-Subscription-Key': APIM_SUBSCRIPTION_KEY
+                    }
                 }
-            }).then(function (transaction) {
+            ).then(function (transaction) {
                 console.log('transaction:', transaction);
                 document.getElementById('results').innerText = format(transaction);
             }).catch(function (err) {

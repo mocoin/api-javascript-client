@@ -104,7 +104,7 @@ var IframeHandler = /** @class */ (function () {
 }());
 exports.default = IframeHandler;
 
-},{"debug":123}],4:[function(require,module,exports){
+},{"debug":124}],4:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -448,7 +448,7 @@ var ImplicitGrantClient = /** @class */ (function (_super) {
 }(oAuth2client_1.default));
 exports.ImplicitGrantClient = ImplicitGrantClient;
 
-},{"./error":2,"./oAuth2client":5,"./popupAuthenticationHandler":6,"./silentAuthenticationHandler":8,"./silentLogoutHandler":9,"debug":123,"idtoken-verifier":131,"qs":137}],5:[function(require,module,exports){
+},{"./error":2,"./oAuth2client":5,"./popupAuthenticationHandler":6,"./silentAuthenticationHandler":8,"./silentLogoutHandler":9,"debug":124,"idtoken-verifier":132,"qs":138}],5:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -640,7 +640,7 @@ var OAuth2client = /** @class */ (function () {
 }());
 exports.default = OAuth2client;
 
-},{"@mocoin/api-abstract-client":12,"debug":123,"http-status":125,"isomorphic-fetch":132}],6:[function(require,module,exports){
+},{"@mocoin/api-abstract-client":12,"debug":124,"http-status":126,"isomorphic-fetch":133}],6:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -824,7 +824,7 @@ var PopupHandler = /** @class */ (function () {
 }());
 exports.default = PopupHandler;
 
-},{"debug":123}],8:[function(require,module,exports){
+},{"debug":124}],8:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -1341,7 +1341,7 @@ var Service = /** @class */ (function () {
 }());
 exports.Service = Service;
 
-},{"./transporters":20,"qs":137}],14:[function(require,module,exports){
+},{"./transporters":20,"qs":138}],14:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -1353,6 +1353,14 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -1402,17 +1410,12 @@ var PersonService = /** @class */ (function (_super) {
     /**
      * コイン口座開設
      */
-    PersonService.prototype.openCoinAccount = function (params) {
+    PersonService.prototype.openCoinAccount = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: "/people/" + params.personId + "/accounts/coin",
-                        method: 'POST',
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: "/people/" + params.personId + "/accounts/coin", method: 'POST', body: {
                             name: params.name
-                        },
-                        expectedStatusCodes: [http_status_1.CREATED]
-                    })];
+                        }, expectedStatusCodes: [http_status_1.CREATED] }))];
             });
         });
     };
@@ -1421,61 +1424,42 @@ var PersonService = /** @class */ (function (_super) {
      * 口座の状態を変更するだけで、ユーザーの所有する口座リストから削除はされません。
      * 解約された口座で取引を進行しようとすると400エラーとなります。
      */
-    PersonService.prototype.closeCoinAccount = function (params) {
+    PersonService.prototype.closeCoinAccount = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: "/people/" + params.personId + "/accounts/coin/" + params.accountNumber + "/close",
-                        method: 'PUT',
-                        expectedStatusCodes: [http_status_1.NO_CONTENT]
-                    })];
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: "/people/" + params.personId + "/accounts/coin/" + params.accountNumber + "/close", method: 'PUT', expectedStatusCodes: [http_status_1.NO_CONTENT] }))];
             });
         });
     };
     /**
      * コイン口座検索
      */
-    PersonService.prototype.searchCoinAccounts = function (params) {
+    PersonService.prototype.searchCoinAccounts = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: "/people/" + params.personId + "/accounts/coin",
-                        method: 'GET',
-                        qs: {},
-                        expectedStatusCodes: [http_status_1.OK]
-                    })];
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: "/people/" + params.personId + "/accounts/coin", method: 'GET', qs: {}, expectedStatusCodes: [http_status_1.OK] }))];
             });
         });
     };
     /**
      * コイン口座取引履歴検索
      */
-    PersonService.prototype.searchCoinAccountMoneyTransferActions = function (params) {
+    PersonService.prototype.searchCoinAccountMoneyTransferActions = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: "/people/" + params.personId + "/accounts/coin/" + params.accountNumber + "/actions/moneyTransfer",
-                        method: 'GET',
-                        qs: {},
-                        expectedStatusCodes: [http_status_1.OK]
-                    })];
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: "/people/" + params.personId + "/accounts/coin/" + params.accountNumber + "/actions/moneyTransfer", method: 'GET', qs: {}, expectedStatusCodes: [http_status_1.OK] }))];
             });
         });
     };
     /**
      * ポイント口座開設
      */
-    PersonService.prototype.openPointAccount = function (params) {
+    PersonService.prototype.openPointAccount = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: "/people/" + params.personId + "/accounts/point",
-                        method: 'POST',
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: "/people/" + params.personId + "/accounts/point", method: 'POST', body: {
                             name: params.name
-                        },
-                        expectedStatusCodes: [http_status_1.CREATED]
-                    })];
+                        }, expectedStatusCodes: [http_status_1.CREATED] }))];
             });
         });
     };
@@ -1484,44 +1468,30 @@ var PersonService = /** @class */ (function (_super) {
      * 口座の状態を変更するだけで、ユーザーの所有する口座リストから削除はされません。
      * 解約された口座で取引を進行しようとすると400エラーとなります。
      */
-    PersonService.prototype.closePointAccount = function (params) {
+    PersonService.prototype.closePointAccount = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: "/people/" + params.personId + "/accounts/point/" + params.accountNumber + "/close",
-                        method: 'PUT',
-                        expectedStatusCodes: [http_status_1.NO_CONTENT]
-                    })];
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: "/people/" + params.personId + "/accounts/point/" + params.accountNumber + "/close", method: 'PUT', expectedStatusCodes: [http_status_1.NO_CONTENT] }))];
             });
         });
     };
     /**
      * ポイント口座検索
      */
-    PersonService.prototype.searchPointAccounts = function (params) {
+    PersonService.prototype.searchPointAccounts = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: "/people/" + params.personId + "/accounts/point",
-                        method: 'GET',
-                        qs: {},
-                        expectedStatusCodes: [http_status_1.OK]
-                    })];
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: "/people/" + params.personId + "/accounts/point", method: 'GET', qs: {}, expectedStatusCodes: [http_status_1.OK] }))];
             });
         });
     };
     /**
      * ポイント口座取引履歴検索
      */
-    PersonService.prototype.searchPointAccountMoneyTransferActions = function (params) {
+    PersonService.prototype.searchPointAccountMoneyTransferActions = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: "/people/" + params.personId + "/accounts/point/" + params.accountNumber + "/actions/moneyTransfer",
-                        method: 'GET',
-                        qs: {},
-                        expectedStatusCodes: [http_status_1.OK]
-                    })];
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: "/people/" + params.personId + "/accounts/point/" + params.accountNumber + "/actions/moneyTransfer", method: 'GET', qs: {}, expectedStatusCodes: [http_status_1.OK] }))];
             });
         });
     };
@@ -1529,33 +1499,23 @@ var PersonService = /** @class */ (function (_super) {
      * 決済方法追加
      * 外部銀行口座や決済サービスから承認を受け取って、決済方法を追加するイメージ
      */
-    PersonService.prototype.addPaymentMethod = function (params) {
+    PersonService.prototype.addPaymentMethod = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: "/people/" + params.personId + "/paymentMethods",
-                        method: 'POST',
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: "/people/" + params.personId + "/paymentMethods", method: 'POST', body: {
                             paymentMethodType: params.paymentMethodType,
                             accountNumber: params.accountNumber
-                        },
-                        expectedStatusCodes: [http_status_1.CREATED]
-                    })];
+                        }, expectedStatusCodes: [http_status_1.CREATED] }))];
             });
         });
     };
     /**
      * 決済方法検索
      */
-    PersonService.prototype.searchPaymentMethods = function (params) {
+    PersonService.prototype.searchPaymentMethods = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: "/people/" + params.personId + "/paymentMethods",
-                        method: 'GET',
-                        qs: {},
-                        expectedStatusCodes: [http_status_1.OK]
-                    })];
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: "/people/" + params.personId + "/paymentMethods", method: 'GET', qs: {}, expectedStatusCodes: [http_status_1.OK] }))];
             });
         });
     };
@@ -1563,7 +1523,7 @@ var PersonService = /** @class */ (function (_super) {
 }(service_1.Service));
 exports.PersonService = PersonService;
 
-},{"../service":13,"http-status":125}],15:[function(require,module,exports){
+},{"../service":13,"http-status":126}],15:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -1575,6 +1535,14 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -1624,13 +1592,10 @@ var BuyCoinTransactionService = /** @class */ (function (_super) {
     /**
      * 取引開始
      */
-    BuyCoinTransactionService.prototype.start = function (params) {
+    BuyCoinTransactionService.prototype.start = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/buyCoin/start',
-                        method: 'POST',
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/buyCoin/start', method: 'POST', body: {
                             expires: params.expires,
                             agent: params.agent,
                             recipient: params.recipient,
@@ -1638,43 +1603,31 @@ var BuyCoinTransactionService = /** @class */ (function (_super) {
                             notes: params.notes,
                             fromLocation: params.fromLocation,
                             toLocation: params.toLocation
-                        },
-                        expectedStatusCodes: [http_status_1.OK]
-                    })];
+                        }, expectedStatusCodes: [http_status_1.OK] }))];
             });
         });
     };
     /**
      * 取引確定
      */
-    BuyCoinTransactionService.prototype.confirm = function (params) {
+    BuyCoinTransactionService.prototype.confirm = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/buyCoin/confirm',
-                        method: 'POST',
-                        expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/buyCoin/confirm', method: 'POST', expectedStatusCodes: [http_status_1.NO_CONTENT], body: {
                             token: params.token
-                        }
-                    })];
+                        } }))];
             });
         });
     };
     /**
      * 取引中止
      */
-    BuyCoinTransactionService.prototype.cancel = function (params) {
+    BuyCoinTransactionService.prototype.cancel = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/buyCoin/cancel',
-                        method: 'POST',
-                        expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/buyCoin/cancel', method: 'POST', expectedStatusCodes: [http_status_1.NO_CONTENT], body: {
                             token: params.token
-                        }
-                    })];
+                        } }))];
             });
         });
     };
@@ -1682,7 +1635,7 @@ var BuyCoinTransactionService = /** @class */ (function (_super) {
 }(service_1.Service));
 exports.BuyCoinTransactionService = BuyCoinTransactionService;
 
-},{"../../service":13,"http-status":125}],16:[function(require,module,exports){
+},{"../../service":13,"http-status":126}],16:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -1694,6 +1647,14 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -1743,56 +1704,41 @@ var DepositCoinTransactionService = /** @class */ (function (_super) {
     /**
      * 取引開始
      */
-    DepositCoinTransactionService.prototype.start = function (params) {
+    DepositCoinTransactionService.prototype.start = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/depositCoin/start',
-                        method: 'POST',
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/depositCoin/start', method: 'POST', body: {
                             expires: params.expires,
                             agent: params.agent,
                             recipient: params.recipient,
                             amount: params.amount,
                             notes: params.notes,
                             toLocation: params.toLocation
-                        },
-                        expectedStatusCodes: [http_status_1.OK]
-                    })];
+                        }, expectedStatusCodes: [http_status_1.OK] }))];
             });
         });
     };
     /**
      * 取引確定
      */
-    DepositCoinTransactionService.prototype.confirm = function (params) {
+    DepositCoinTransactionService.prototype.confirm = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/depositCoin/confirm',
-                        method: 'POST',
-                        expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/depositCoin/confirm', method: 'POST', expectedStatusCodes: [http_status_1.NO_CONTENT], body: {
                             token: params.token
-                        }
-                    })];
+                        } }))];
             });
         });
     };
     /**
      * 取引中止
      */
-    DepositCoinTransactionService.prototype.cancel = function (params) {
+    DepositCoinTransactionService.prototype.cancel = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/depositCoin/cancel',
-                        method: 'POST',
-                        expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/depositCoin/cancel', method: 'POST', expectedStatusCodes: [http_status_1.NO_CONTENT], body: {
                             token: params.token
-                        }
-                    })];
+                        } }))];
             });
         });
     };
@@ -1800,7 +1746,7 @@ var DepositCoinTransactionService = /** @class */ (function (_super) {
 }(service_1.Service));
 exports.DepositCoinTransactionService = DepositCoinTransactionService;
 
-},{"../../service":13,"http-status":125}],17:[function(require,module,exports){
+},{"../../service":13,"http-status":126}],17:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -1812,6 +1758,14 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -1861,13 +1815,10 @@ var ReturnCoinTransactionService = /** @class */ (function (_super) {
     /**
      * 取引開始
      */
-    ReturnCoinTransactionService.prototype.start = function (params) {
+    ReturnCoinTransactionService.prototype.start = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/returnCoin/start',
-                        method: 'POST',
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/returnCoin/start', method: 'POST', body: {
                             expires: params.expires,
                             agent: params.agent,
                             recipient: params.recipient,
@@ -1875,43 +1826,31 @@ var ReturnCoinTransactionService = /** @class */ (function (_super) {
                             notes: params.notes,
                             fromLocation: params.fromLocation,
                             toLocation: params.toLocation
-                        },
-                        expectedStatusCodes: [http_status_1.OK]
-                    })];
+                        }, expectedStatusCodes: [http_status_1.OK] }))];
             });
         });
     };
     /**
      * 取引確定
      */
-    ReturnCoinTransactionService.prototype.confirm = function (params) {
+    ReturnCoinTransactionService.prototype.confirm = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/returnCoin/confirm',
-                        method: 'POST',
-                        expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/returnCoin/confirm', method: 'POST', expectedStatusCodes: [http_status_1.NO_CONTENT], body: {
                             token: params.token
-                        }
-                    })];
+                        } }))];
             });
         });
     };
     /**
      * 取引中止
      */
-    ReturnCoinTransactionService.prototype.cancel = function (params) {
+    ReturnCoinTransactionService.prototype.cancel = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/returnCoin/cancel',
-                        method: 'POST',
-                        expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/returnCoin/cancel', method: 'POST', expectedStatusCodes: [http_status_1.NO_CONTENT], body: {
                             token: params.token
-                        }
-                    })];
+                        } }))];
             });
         });
     };
@@ -1919,7 +1858,7 @@ var ReturnCoinTransactionService = /** @class */ (function (_super) {
 }(service_1.Service));
 exports.ReturnCoinTransactionService = ReturnCoinTransactionService;
 
-},{"../../service":13,"http-status":125}],18:[function(require,module,exports){
+},{"../../service":13,"http-status":126}],18:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -1931,6 +1870,14 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -1980,13 +1927,10 @@ var TransferCoinTransactionService = /** @class */ (function (_super) {
     /**
      * 取引開始
      */
-    TransferCoinTransactionService.prototype.start = function (params) {
+    TransferCoinTransactionService.prototype.start = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/transferCoin/start',
-                        method: 'POST',
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/transferCoin/start', method: 'POST', body: {
                             expires: params.expires,
                             agent: params.agent,
                             recipient: params.recipient,
@@ -1994,43 +1938,31 @@ var TransferCoinTransactionService = /** @class */ (function (_super) {
                             notes: params.notes,
                             fromLocation: params.fromLocation,
                             toLocation: params.toLocation
-                        },
-                        expectedStatusCodes: [http_status_1.OK]
-                    })];
+                        }, expectedStatusCodes: [http_status_1.OK] }))];
             });
         });
     };
     /**
      * 取引確定
      */
-    TransferCoinTransactionService.prototype.confirm = function (params) {
+    TransferCoinTransactionService.prototype.confirm = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/transferCoin/confirm',
-                        method: 'POST',
-                        expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/transferCoin/confirm', method: 'POST', expectedStatusCodes: [http_status_1.NO_CONTENT], body: {
                             token: params.token
-                        }
-                    })];
+                        } }))];
             });
         });
     };
     /**
      * 取引中止
      */
-    TransferCoinTransactionService.prototype.cancel = function (params) {
+    TransferCoinTransactionService.prototype.cancel = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/transferCoin/cancel',
-                        method: 'POST',
-                        expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/transferCoin/cancel', method: 'POST', expectedStatusCodes: [http_status_1.NO_CONTENT], body: {
                             token: params.token
-                        }
-                    })];
+                        } }))];
             });
         });
     };
@@ -2038,7 +1970,7 @@ var TransferCoinTransactionService = /** @class */ (function (_super) {
 }(service_1.Service));
 exports.TransferCoinTransactionService = TransferCoinTransactionService;
 
-},{"../../service":13,"http-status":125}],19:[function(require,module,exports){
+},{"../../service":13,"http-status":126}],19:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2050,6 +1982,14 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -2099,56 +2039,41 @@ var WithdrawCoinTransactionService = /** @class */ (function (_super) {
     /**
      * 取引開始
      */
-    WithdrawCoinTransactionService.prototype.start = function (params) {
+    WithdrawCoinTransactionService.prototype.start = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/withdrawCoin/start',
-                        method: 'POST',
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/withdrawCoin/start', method: 'POST', body: {
                             expires: params.expires,
                             agent: params.agent,
                             recipient: params.recipient,
                             amount: params.amount,
                             notes: params.notes,
                             fromLocation: params.fromLocation
-                        },
-                        expectedStatusCodes: [http_status_1.OK]
-                    })];
+                        }, expectedStatusCodes: [http_status_1.OK] }))];
             });
         });
     };
     /**
      * 取引確定
      */
-    WithdrawCoinTransactionService.prototype.confirm = function (params) {
+    WithdrawCoinTransactionService.prototype.confirm = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/withdrawCoin/confirm',
-                        method: 'POST',
-                        expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/withdrawCoin/confirm', method: 'POST', expectedStatusCodes: [http_status_1.NO_CONTENT], body: {
                             token: params.token
-                        }
-                    })];
+                        } }))];
             });
         });
     };
     /**
      * 取引中止
      */
-    WithdrawCoinTransactionService.prototype.cancel = function (params) {
+    WithdrawCoinTransactionService.prototype.cancel = function (params, options) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.fetch({
-                        uri: '/transactions/withdrawCoin/cancel',
-                        method: 'POST',
-                        expectedStatusCodes: [http_status_1.NO_CONTENT],
-                        body: {
+                return [2 /*return*/, this.fetch(__assign({}, options, { uri: '/transactions/withdrawCoin/cancel', method: 'POST', expectedStatusCodes: [http_status_1.NO_CONTENT], body: {
                             token: params.token
-                        }
-                    })];
+                        } }))];
             });
         });
     };
@@ -2156,7 +2081,7 @@ var WithdrawCoinTransactionService = /** @class */ (function (_super) {
 }(service_1.Service));
 exports.WithdrawCoinTransactionService = WithdrawCoinTransactionService;
 
-},{"../../service":13,"http-status":125}],20:[function(require,module,exports){
+},{"../../service":13,"http-status":126}],20:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2415,7 +2340,7 @@ exports.DefaultTransporter = DefaultTransporter;
 //     }
 // }
 
-},{"debug":123,"http-status":125,"isomorphic-fetch":132}],21:[function(require,module,exports){
+},{"debug":124,"http-status":126,"isomorphic-fetch":133}],21:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -2626,7 +2551,7 @@ var AlreadyInUseError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = AlreadyInUseError;
 
-},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],41:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":142}],41:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2665,7 +2590,7 @@ var ArgumentError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = ArgumentError;
 
-},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],42:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":142}],42:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2704,7 +2629,7 @@ var ArgumentNullError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = ArgumentNullError;
 
-},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],43:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":142}],43:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2742,7 +2667,7 @@ var ForbiddenError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = ForbiddenError;
 
-},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],44:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":142}],44:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2812,7 +2737,7 @@ var NotFoundError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = NotFoundError;
 
-},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],46:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":142}],46:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2850,7 +2775,7 @@ var NotImplementedError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = NotImplementedError;
 
-},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],47:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":142}],47:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2888,7 +2813,7 @@ var RateLimitExceededError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = RateLimitExceededError;
 
-},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],48:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":142}],48:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2926,7 +2851,7 @@ var ServiceUnavailableError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = ServiceUnavailableError;
 
-},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],49:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":142}],49:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -2964,7 +2889,7 @@ var UnauthorizedError = /** @class */ (function (_super) {
 }(mocoin_1.MocoinError));
 exports.default = UnauthorizedError;
 
-},{"../errorCode":39,"./mocoin":44,"setprototypeof":141}],50:[function(require,module,exports){
+},{"../errorCode":39,"./mocoin":44,"setprototypeof":142}],50:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3468,7 +3393,7 @@ exports.transactionType = transactionType_1.default;
 exports.unitCode = unitCode_1.UnitCode;
 exports.url = URLFactory;
 
-},{"./factory/accountType":21,"./factory/action/authorize/deposit/account/coin":24,"./factory/action/authorize/deposit/objectType":25,"./factory/action/authorize/deposit/paymentMethod/bankAccount":26,"./factory/action/authorize/transfer/account/coin":27,"./factory/action/authorize/transfer/objectType":28,"./factory/action/authorize/withdraw/account/coin":29,"./factory/action/authorize/withdraw/objectType":30,"./factory/action/authorize/withdraw/paymentMethod/bankAccount":31,"./factory/action/trade/pay":32,"./factory/action/transfer/moneyTransfer":33,"./factory/action/transfer/send/message/email":34,"./factory/action/transfer/send/order":35,"./factory/actionStatusType":22,"./factory/actionType":23,"./factory/clientUser":36,"./factory/creativeWork/message/email":38,"./factory/creativeWorkType":37,"./factory/errorCode":39,"./factory/errors":50,"./factory/order":51,"./factory/orderStatus":52,"./factory/organization/corporation":55,"./factory/organizationIdentifier/corporation":53,"./factory/organizationType":54,"./factory/ownershipInfo":56,"./factory/paymentMethod/paymentCard/creditCard":58,"./factory/paymentMethodType":57,"./factory/person":59,"./factory/personType":60,"./factory/placeType":61,"./factory/priceCurrency":62,"./factory/programMembership":63,"./factory/quantitativeValue":64,"./factory/task/cancelMoneyTransfer":68,"./factory/task/moneyTransfer":69,"./factory/task/sendEmailMessage":70,"./factory/taskExecutionResult":65,"./factory/taskName":66,"./factory/taskStatus":67,"./factory/transaction/buyCoin":74,"./factory/transaction/depositCoin":75,"./factory/transaction/returnCoin":76,"./factory/transaction/transferCoin":77,"./factory/transaction/withdrawCoin":78,"./factory/transactionStatusType":71,"./factory/transactionTasksExportationStatus":72,"./factory/transactionType":73,"./factory/unitCode":79,"./factory/url":80,"@pecorino/factory":116}],82:[function(require,module,exports){
+},{"./factory/accountType":21,"./factory/action/authorize/deposit/account/coin":24,"./factory/action/authorize/deposit/objectType":25,"./factory/action/authorize/deposit/paymentMethod/bankAccount":26,"./factory/action/authorize/transfer/account/coin":27,"./factory/action/authorize/transfer/objectType":28,"./factory/action/authorize/withdraw/account/coin":29,"./factory/action/authorize/withdraw/objectType":30,"./factory/action/authorize/withdraw/paymentMethod/bankAccount":31,"./factory/action/trade/pay":32,"./factory/action/transfer/moneyTransfer":33,"./factory/action/transfer/send/message/email":34,"./factory/action/transfer/send/order":35,"./factory/actionStatusType":22,"./factory/actionType":23,"./factory/clientUser":36,"./factory/creativeWork/message/email":38,"./factory/creativeWorkType":37,"./factory/errorCode":39,"./factory/errors":50,"./factory/order":51,"./factory/orderStatus":52,"./factory/organization/corporation":55,"./factory/organizationIdentifier/corporation":53,"./factory/organizationType":54,"./factory/ownershipInfo":56,"./factory/paymentMethod/paymentCard/creditCard":58,"./factory/paymentMethodType":57,"./factory/person":59,"./factory/personType":60,"./factory/placeType":61,"./factory/priceCurrency":62,"./factory/programMembership":63,"./factory/quantitativeValue":64,"./factory/task/cancelMoneyTransfer":68,"./factory/task/moneyTransfer":69,"./factory/task/sendEmailMessage":70,"./factory/taskExecutionResult":65,"./factory/taskName":66,"./factory/taskStatus":67,"./factory/transaction/buyCoin":74,"./factory/transaction/depositCoin":75,"./factory/transaction/returnCoin":76,"./factory/transaction/transferCoin":77,"./factory/transaction/withdrawCoin":78,"./factory/transactionStatusType":71,"./factory/transactionTasksExportationStatus":72,"./factory/transactionType":73,"./factory/unitCode":79,"./factory/url":80,"@pecorino/factory":117}],82:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3567,9 +3492,12 @@ exports.default = ErrorCode;
 },{}],92:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -3603,12 +3531,15 @@ var AlreadyInUseError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = AlreadyInUseError;
 
-},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],93:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":142}],93:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -3641,12 +3572,15 @@ var ArgumentError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = ArgumentError;
 
-},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],94:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":142}],94:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -3679,12 +3613,15 @@ var ArgumentNullError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = ArgumentNullError;
 
-},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],95:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":142}],95:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -3716,12 +3653,15 @@ var ForbiddenError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = ForbiddenError;
 
-},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],96:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":142}],96:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -3754,12 +3694,15 @@ var NotFoundError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = NotFoundError;
 
-},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],97:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":142}],97:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -3791,12 +3734,15 @@ var NotImplementedError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = NotImplementedError;
 
-},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],98:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":142}],98:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -3825,9 +3771,12 @@ exports.PecorinoError = PecorinoError;
 },{}],99:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -3859,12 +3808,15 @@ var RateLimitExceededError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = RateLimitExceededError;
 
-},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],100:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":142}],100:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -3896,12 +3848,15 @@ var ServiceUnavailableError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = ServiceUnavailableError;
 
-},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],101:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":142}],101:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -3933,7 +3888,7 @@ var UnauthorizedError = /** @class */ (function (_super) {
 }(pecorino_1.PecorinoError));
 exports.default = UnauthorizedError;
 
-},{"../errorCode":91,"./pecorino":98,"setprototypeof":141}],102:[function(require,module,exports){
+},{"../errorCode":91,"./pecorino":98,"setprototypeof":142}],102:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3963,8 +3918,21 @@ exports.Unauthorized = unauthorized_1.default;
 },{"./error/alreadyInUse":92,"./error/argument":93,"./error/argumentNull":94,"./error/forbidden":95,"./error/notFound":96,"./error/notImplemented":97,"./error/pecorino":98,"./error/rateLimitExceeded":99,"./error/serviceUnavailable":100,"./error/unauthorized":101}],103:[function(require,module,exports){
 arguments[4][62][0].apply(exports,arguments)
 },{"dup":62}],104:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * ソートタイプ
+ */
+var SortType;
+(function (SortType) {
+    SortType[SortType["Ascending"] = 1] = "Ascending";
+    SortType[SortType["Descending"] = -1] = "Descending";
+})(SortType || (SortType = {}));
+exports.default = SortType;
+
+},{}],105:[function(require,module,exports){
 arguments[4][24][0].apply(exports,arguments)
-},{"dup":24}],105:[function(require,module,exports){
+},{"dup":24}],106:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -3983,7 +3951,7 @@ var TaskName;
 })(TaskName || (TaskName = {}));
 exports.default = TaskName;
 
-},{}],106:[function(require,module,exports){
+},{}],107:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -4010,11 +3978,11 @@ var TaskStatus;
 })(TaskStatus || (TaskStatus = {}));
 exports.default = TaskStatus;
 
-},{}],107:[function(require,module,exports){
-arguments[4][24][0].apply(exports,arguments)
-},{"dup":24}],108:[function(require,module,exports){
+},{}],108:[function(require,module,exports){
 arguments[4][24][0].apply(exports,arguments)
 },{"dup":24}],109:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],110:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -4029,7 +3997,7 @@ var TransactionStatusType;
 })(TransactionStatusType || (TransactionStatusType = {}));
 exports.default = TransactionStatusType;
 
-},{}],110:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -4052,7 +4020,7 @@ var TransactionTasksExportationStatus;
 })(TransactionTasksExportationStatus || (TransactionTasksExportationStatus = {}));
 exports.default = TransactionTasksExportationStatus;
 
-},{}],111:[function(require,module,exports){
+},{}],112:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -4075,15 +4043,15 @@ var TransactionType;
 })(TransactionType || (TransactionType = {}));
 exports.default = TransactionType;
 
-},{}],112:[function(require,module,exports){
-arguments[4][24][0].apply(exports,arguments)
-},{"dup":24}],113:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 arguments[4][24][0].apply(exports,arguments)
 },{"dup":24}],114:[function(require,module,exports){
 arguments[4][24][0].apply(exports,arguments)
 },{"dup":24}],115:[function(require,module,exports){
+arguments[4][24][0].apply(exports,arguments)
+},{"dup":24}],116:[function(require,module,exports){
 arguments[4][80][0].apply(exports,arguments)
-},{"dup":80}],116:[function(require,module,exports){
+},{"dup":80}],117:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
@@ -4110,6 +4078,7 @@ var WithdrawTransactionFactory = require("./factory/transaction/withdraw");
 var transactionStatusType_1 = require("./factory/transactionStatusType");
 var transactionTasksExportationStatus_1 = require("./factory/transactionTasksExportationStatus");
 var transactionType_1 = require("./factory/transactionType");
+var sortType_1 = require("./factory/sortType");
 var URLFactory = require("./factory/url");
 var errorCode_1 = require("./factory/errorCode");
 var errors = require("./factory/errors");
@@ -4148,6 +4117,7 @@ var task;
     task.cancelMoneyTransfer = CancelMoneyTransferTaskFactory;
     task.moneyTransfer = MoneyTransferTaskFactory;
 })(task = exports.task || (exports.task = {}));
+exports.sortType = sortType_1.default;
 exports.taskExecutionResult = TaskExecutionResultFactory;
 exports.taskName = taskName_1.default;
 exports.taskStatus = taskStatus_1.default;
@@ -4162,7 +4132,7 @@ exports.transactionTasksExportationStatus = transactionTasksExportationStatus_1.
 exports.transactionType = transactionType_1.default;
 exports.url = URLFactory;
 
-},{"./factory/account":82,"./factory/accountStatusType":83,"./factory/action/transfer/moneyTransfer":86,"./factory/action/transfer/send/message/email":87,"./factory/actionStatusType":84,"./factory/actionType":85,"./factory/clientUser":88,"./factory/creativeWork/message/email":90,"./factory/creativeWorkType":89,"./factory/errorCode":91,"./factory/errors":102,"./factory/priceCurrency":103,"./factory/task/cancelMoneyTransfer":107,"./factory/task/moneyTransfer":108,"./factory/taskExecutionResult":104,"./factory/taskName":105,"./factory/taskStatus":106,"./factory/transaction/deposit":112,"./factory/transaction/transfer":113,"./factory/transaction/withdraw":114,"./factory/transactionStatusType":109,"./factory/transactionTasksExportationStatus":110,"./factory/transactionType":111,"./factory/url":115}],117:[function(require,module,exports){
+},{"./factory/account":82,"./factory/accountStatusType":83,"./factory/action/transfer/moneyTransfer":86,"./factory/action/transfer/send/message/email":87,"./factory/actionStatusType":84,"./factory/actionType":85,"./factory/clientUser":88,"./factory/creativeWork/message/email":90,"./factory/creativeWorkType":89,"./factory/errorCode":91,"./factory/errors":102,"./factory/priceCurrency":103,"./factory/sortType":104,"./factory/task/cancelMoneyTransfer":108,"./factory/task/moneyTransfer":109,"./factory/taskExecutionResult":105,"./factory/taskName":106,"./factory/taskStatus":107,"./factory/transaction/deposit":113,"./factory/transaction/transfer":114,"./factory/transaction/withdraw":115,"./factory/transactionStatusType":110,"./factory/transactionTasksExportationStatus":111,"./factory/transactionType":112,"./factory/url":116}],118:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -4315,7 +4285,7 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],118:[function(require,module,exports){
+},{}],119:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
@@ -4480,7 +4450,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],119:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 ;(function (root, factory) {
 	if (typeof exports === "object") {
 		// CommonJS
@@ -5241,7 +5211,7 @@ Emitter.prototype.hasListeners = function(event){
 	return CryptoJS;
 
 }));
-},{}],120:[function(require,module,exports){
+},{}],121:[function(require,module,exports){
 ;(function (root, factory) {
 	if (typeof exports === "object") {
 		// CommonJS
@@ -5377,7 +5347,7 @@ Emitter.prototype.hasListeners = function(event){
 	return CryptoJS.enc.Base64;
 
 }));
-},{"./core":119}],121:[function(require,module,exports){
+},{"./core":120}],122:[function(require,module,exports){
 ;(function (root, factory) {
 	if (typeof exports === "object") {
 		// CommonJS
@@ -5396,7 +5366,7 @@ Emitter.prototype.hasListeners = function(event){
 	return CryptoJS.enc.Hex;
 
 }));
-},{"./core":119}],122:[function(require,module,exports){
+},{"./core":120}],123:[function(require,module,exports){
 ;(function (root, factory) {
 	if (typeof exports === "object") {
 		// CommonJS
@@ -5596,7 +5566,7 @@ Emitter.prototype.hasListeners = function(event){
 	return CryptoJS.SHA256;
 
 }));
-},{"./core":119}],123:[function(require,module,exports){
+},{"./core":120}],124:[function(require,module,exports){
 (function (process){
 /**
  * This is the web browser implementation of `debug()`.
@@ -5795,7 +5765,7 @@ function localstorage() {
 }
 
 }).call(this,require('_process'))
-},{"./debug":124,"_process":135}],124:[function(require,module,exports){
+},{"./debug":125,"_process":136}],125:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -6022,7 +5992,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":134}],125:[function(require,module,exports){
+},{"ms":135}],126:[function(require,module,exports){
 // Generated by CoffeeScript 2.3.0
 // # node-http-status
 
@@ -6502,7 +6472,7 @@ module.exports = {
   }
 };
 
-},{}],126:[function(require,module,exports){
+},{}],127:[function(require,module,exports){
 var base64 = require('base64-js');
 
 function padding(str) {
@@ -6588,7 +6558,7 @@ module.exports = {
   base64ToBase64Url: base64ToBase64Url
 };
 
-},{"base64-js":117}],127:[function(require,module,exports){
+},{"base64-js":118}],128:[function(require,module,exports){
 function DummyCache() {}
 
 DummyCache.prototype.get = function () {
@@ -6604,7 +6574,7 @@ DummyCache.prototype.set = function () {
 
 module.exports = DummyCache;
 
-},{}],128:[function(require,module,exports){
+},{}],129:[function(require,module,exports){
 function ConfigurationError(message) {
   this.name = 'ConfigurationError';
   this.message = (message || '');
@@ -6622,7 +6592,7 @@ module.exports = {
   TokenValidationError: TokenValidationError
 };
 
-},{}],129:[function(require,module,exports){
+},{}],130:[function(require,module,exports){
 var urljoin = require('url-join');
 var base64 = require('./base64');
 var request = require('superagent');
@@ -6668,7 +6638,7 @@ module.exports = {
   getJWKS: getJWKS
 };
 
-},{"./base64":126,"superagent":143,"url-join":148}],130:[function(require,module,exports){
+},{"./base64":127,"superagent":144,"url-join":149}],131:[function(require,module,exports){
 /*
 Based on the work of Tom Wu
 http://www-cs-students.stanford.edu/~tjw/jsbn/
@@ -6747,7 +6717,7 @@ RSAVerifier.prototype.verify = function (msg, encsig) {
 
 module.exports = RSAVerifier;
 
-},{"crypto-js/sha256":122,"jsbn":133}],131:[function(require,module,exports){
+},{"crypto-js/sha256":123,"jsbn":134}],132:[function(require,module,exports){
 var sha256 = require('crypto-js/sha256');
 var cryptoBase64 = require('crypto-js/enc-base64');
 var cryptoHex = require('crypto-js/enc-hex');
@@ -7040,7 +7010,7 @@ IdTokenVerifier.prototype.validateAccessToken = function (accessToken, alg, atHa
 
 module.exports = IdTokenVerifier;
 
-},{"./helpers/base64":126,"./helpers/dummy-cache":127,"./helpers/error":128,"./helpers/jwks":129,"./helpers/rsa-verifier":130,"crypto-js/enc-base64":120,"crypto-js/enc-hex":121,"crypto-js/sha256":122}],132:[function(require,module,exports){
+},{"./helpers/base64":127,"./helpers/dummy-cache":128,"./helpers/error":129,"./helpers/jwks":130,"./helpers/rsa-verifier":131,"crypto-js/enc-base64":121,"crypto-js/enc-hex":122,"crypto-js/sha256":123}],133:[function(require,module,exports){
 // the whatwg-fetch polyfill installs the fetch() function
 // on the global object (window or self)
 //
@@ -7048,7 +7018,7 @@ module.exports = IdTokenVerifier;
 require('whatwg-fetch');
 module.exports = self.fetch.bind(self);
 
-},{"whatwg-fetch":149}],133:[function(require,module,exports){
+},{"whatwg-fetch":150}],134:[function(require,module,exports){
 (function(){
 
     // Copyright (c) 2005  Tom Wu
@@ -8407,7 +8377,7 @@ module.exports = self.fetch.bind(self);
 
 }).call(this);
 
-},{}],134:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 /**
  * Helpers.
  */
@@ -8561,7 +8531,7 @@ function plural(ms, n, name) {
   return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
-},{}],135:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -8747,7 +8717,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],136:[function(require,module,exports){
+},{}],137:[function(require,module,exports){
 'use strict';
 
 var replace = String.prototype.replace;
@@ -8767,7 +8737,7 @@ module.exports = {
     RFC3986: 'RFC3986'
 };
 
-},{}],137:[function(require,module,exports){
+},{}],138:[function(require,module,exports){
 'use strict';
 
 var stringify = require('./stringify');
@@ -8780,7 +8750,7 @@ module.exports = {
     stringify: stringify
 };
 
-},{"./formats":136,"./parse":138,"./stringify":139}],138:[function(require,module,exports){
+},{"./formats":137,"./parse":139,"./stringify":140}],139:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -8956,7 +8926,7 @@ module.exports = function (str, opts) {
     return utils.compact(obj);
 };
 
-},{"./utils":140}],139:[function(require,module,exports){
+},{"./utils":141}],140:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -9168,7 +9138,7 @@ module.exports = function (object, opts) {
     return joined.length > 0 ? prefix + joined : '';
 };
 
-},{"./formats":136,"./utils":140}],140:[function(require,module,exports){
+},{"./formats":137,"./utils":141}],141:[function(require,module,exports){
 'use strict';
 
 var has = Object.prototype.hasOwnProperty;
@@ -9383,7 +9353,7 @@ module.exports = {
     merge: merge
 };
 
-},{}],141:[function(require,module,exports){
+},{}],142:[function(require,module,exports){
 module.exports = Object.setPrototypeOf || ({__proto__:[]} instanceof Array ? setProtoOf : mixinProperties);
 
 function setProtoOf(obj, proto) {
@@ -9400,7 +9370,7 @@ function mixinProperties(obj, proto) {
 	return obj;
 }
 
-},{}],142:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 function Agent() {
   this._defaults = [];
 }
@@ -9422,7 +9392,7 @@ Agent.prototype._setDefaults = function(req) {
 
 module.exports = Agent;
 
-},{}],143:[function(require,module,exports){
+},{}],144:[function(require,module,exports){
 /**
  * Root reference for iframes.
  */
@@ -10344,7 +10314,7 @@ request.put = function(url, data, fn) {
   return req;
 };
 
-},{"./agent-base":142,"./is-object":144,"./request-base":145,"./response-base":146,"component-emitter":118}],144:[function(require,module,exports){
+},{"./agent-base":143,"./is-object":145,"./request-base":146,"./response-base":147,"component-emitter":119}],145:[function(require,module,exports){
 'use strict';
 
 /**
@@ -10361,7 +10331,7 @@ function isObject(obj) {
 
 module.exports = isObject;
 
-},{}],145:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 'use strict';
 
 /**
@@ -11057,7 +11027,7 @@ RequestBase.prototype._setTimeouts = function() {
   }
 };
 
-},{"./is-object":144}],146:[function(require,module,exports){
+},{"./is-object":145}],147:[function(require,module,exports){
 'use strict';
 
 /**
@@ -11195,7 +11165,7 @@ ResponseBase.prototype._setStatusProperties = function(status){
     this.unprocessableEntity = 422 == status;
 };
 
-},{"./utils":147}],147:[function(require,module,exports){
+},{"./utils":148}],148:[function(require,module,exports){
 'use strict';
 
 /**
@@ -11268,7 +11238,7 @@ exports.cleanHeader = function(header, changesOrigin){
   return header;
 };
 
-},{}],148:[function(require,module,exports){
+},{}],149:[function(require,module,exports){
 (function (name, context, definition) {
   if (typeof module !== 'undefined' && module.exports) module.exports = definition();
   else if (typeof define === 'function' && define.amd) define(definition);
@@ -11308,7 +11278,7 @@ exports.cleanHeader = function(header, changesOrigin){
 
 });
 
-},{}],149:[function(require,module,exports){
+},{}],150:[function(require,module,exports){
 (function(self) {
   'use strict';
 
